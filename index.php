@@ -1,5 +1,5 @@
 <?php
-
+require_once "./config/path.php";
 require_once "./vendor/autoload.php";
 
 use App\Crawler;
@@ -11,22 +11,11 @@ $shopeeHtmlContentFilter = new ShopeeHtmlContentFilter();
 $simplifiedChineseConverter = new SimplifiedChineseConverter;
 
 $content = Crawler::crawl($url);
-//$contentPath = './files/content.html';
-//$fp = fopen($contentPath, 'w');
-//fwrite($fp, $content);
-
-//$fp = fopen($contentPath, 'r');
-//$content = fread($fp, filesize($contentPath));
-
-// 0: name, 1: price
 $products = $shopeeHtmlContentFilter->filterProducts($content);
 
 foreach ($products as $product) {
-    $name = $product[0];
-    $price = $product[1];
+    $product->name = $simplifiedChineseConverter->convertToCN($product->name);
+    $product->name = $simplifiedChineseConverter->convertToHans($product->name);
 
-    $name = $simplifiedChineseConverter->convertToCN($name);
-    $name = $simplifiedChineseConverter->convertToHans($name);
-
-    echo $name . ' ' . $price . "\n";
+    echo $product->name . ' ' . $product->price . "\n";
 }

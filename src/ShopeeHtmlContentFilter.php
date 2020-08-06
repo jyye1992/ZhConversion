@@ -22,7 +22,7 @@ class ShopeeHtmlContentFilter
         $names = $this->getProductNames();
         $prices = $this->getProductPrices();
 
-        return $this->zip((array)$names, $prices);
+        return $this->zipWithKey($names, $prices, 'name', 'price');
     }
 
     /**
@@ -64,10 +64,17 @@ class ShopeeHtmlContentFilter
     /**
      * @param array $array1
      * @param array $array2
+     * @param $keyName1
+     * @param $keyName2
      * @return array
      */
-    private function zip(array $array1, array $array2)
+    private function zipWithKey(array $array1, array $array2, $keyName1, $keyName2)
     {
-        return array_map(null, $array1, $array2);
+        return array_map(function ($arr1, $arr2) use ($keyName1, $keyName2) {
+            return (object)[
+                $keyName1 => $arr1,
+                $keyName2 => $arr2,
+            ];
+        }, $array1, $array2);
     }
 }

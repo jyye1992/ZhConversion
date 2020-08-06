@@ -1,7 +1,8 @@
 {
     "name": "felix.ye/zh-conversion",
     "require": {
-        "jonnyw/php-phantomjs": "^4.6.1"
+        "jonnyw/php-phantomjs": "^4.6.1",
+        "ext-dom": "*"
     },
     "scripts": {
         "post-install-cmd": [

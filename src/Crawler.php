@@ -4,6 +4,7 @@
 namespace App;
 
 
+use Exception;
 use JonnyW\PhantomJs\Client;
 
 class Crawler
@@ -12,8 +13,7 @@ class Crawler
     {
         try {
             $client = Client::getInstance();
-            $client->getEngine()->setPath('D:\path\to\your\project\in\bin\phantomjs.exe');
-
+            $client->getEngine()->setPath($_ENV['PhantomJsClientEnginePath']);
 
             $request = $client->getMessageFactory()->createRequest($url, 'GET', 5000);
             $response = $client->getMessageFactory()->createResponse();
@@ -23,7 +23,7 @@ class Crawler
             if ($response->getStatus() === 200) {
                 return $response->getContent();
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             echo 'error';
             exit;
         }
